@@ -29,16 +29,17 @@ $(document).on("submit", ".FormularioAjax", function (e) {
 
       if (form.hasClass("Editar")) {
         alert("Editado correctamente");
-        $("#tabla_product").load("listar_products.php");
-
+        listar(`${url}?page=1`);
+        let modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+        modal.hide();
       }
       if (form.hasClass("ProductEliminar")) {
         alert("Se ha eliminado correctamente.");
-        $("#tabla_product").load("listar_products.php");
+        listar(`${url}?page=1`);
         
       } else if (form.hasClass("Insertar")) {
         alert("Se agregó correctamente al sistema.");
-        $("#tabla_product").load("listar_products.php");
+        listar(`${url}?page=1`);
         let modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
         modal.hide();
         form.trigger("reset");

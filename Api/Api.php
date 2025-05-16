@@ -21,7 +21,7 @@ $id= $explode[1] ?? null;
 switch($metodo){
     case 'GET':
         $controller = new $nameController();
-        echo $controller->consultar($id);
+        echo $controller->consultar($id, $_GET);
         break;
     case 'POST':
         $controller = new $nameController();

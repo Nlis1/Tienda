@@ -61,87 +61,47 @@
         </div>
       </div>
 
-
-<?php 
-    require_once '../Models/ProductModel.php';
-
-    $insProduct = new ProductModel();
-    $datos= $insProduct->get($id=null);
-?>
-
-
+      <div class="p-3">
+          <div id="totalProduct"></div>
+      </div>
+ 
 <div class="col-md-12 p-3">
     <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Imagen</th>
-                <th>Descripcion</th>
-                <th>Stock</th>
-                <th>Codigo</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Imagen</th>
+                        <th>Descripcion</th>
+                        <th>Stock</th>
+                        <th>Codigo</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
         <tbody id="tabla_product">
-                <tr>
-                    <?php foreach($datos as $row){ ?>
-                    <td><?php echo $row['id']?></td>
-                    <td><?php echo $row['name']?></td>
-                    <td>
-                        <img class="img-thumbnail rounded" src="<?php echo $row['photo'] ?>" width="50" alt="" srcset="">
-                    </td>
-                    <td><?php echo $row['description']?></td>
-                    <td><?php echo $row['stock'] ?></td>
-                    <td><?php echo $row['product_code']?></td>
-                    <td><?php echo $row['price']?></td>
-
-
-                    <td>
-                        <form class="FormularioAjax ProductEliminar" method="POST"  action="../Api/Api.php/product/<?php echo $row['id']?>">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger btn-raised btn-xs">
-                                <i class="bi bi-trash"></i>
-                            </button>
-
-                        </form>
-                    </td>
-                    <td>    
-                           <button type="button"
-                                class="btn btn-info btn-raised btn-xs btn-editar"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editModal"
-                                data-id="<?php echo $row['id']?>"
-                                data-name="<?php echo htmlspecialchars($row['name']) ?>"
-                                data-photo="<?php echo htmlspecialchars($row['photo']) ?>"
-                                data-description="<?php echo htmlspecialchars($row['description']) ?>"
-                                data-stock="<?php echo $row['stock'] ?>"
-                                data-code="<?php echo htmlspecialchars($row['product_code']) ?>"
-                                data-price="<?php echo $row['price']?>">
-                            <i class="bi bi-arrow-counterclockwise"></i>
-                        </button>
-                    </td>
-                </tr>
-           <?php } ?>
-        </tbody>
-    </table>
-</div>
-</div>
+        </table>
 </div>
 
-    <?php 
-    
-    
-    ?>
+    <div class="menu-content d-flex">
+      <button id="btn-siguiente" onclick="Siguiente()" class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-left"></i></button>
+     <div id="menu">
+      
+    </div>
+      <button id="btn-atras" class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-right"></i></button>
+
+    </div>
+</div>
+
+</div>
 
   <!-- Editar Modal -->
 
-        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Producto</h1>
+              <h1 class="modal-title fs-5" id="editModalLabel">Editar Producto</h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -181,7 +141,7 @@
                 </div><br>
 
                 <div class="btn-group" role="group" aria-label="">
-					<button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
+					      <button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
                 </div>
             </form>
 

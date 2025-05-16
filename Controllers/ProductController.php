@@ -2,8 +2,45 @@
 
 require_once '../Models/ProductModel.php';
 class ProductController extends ProductModel{
-    public function consultar($id=null){
+    public function consultar($id=null, $data){
+        $page = $data['page'] ?? false;
+
+        if($page)  return $this->paginador($page);
+
         $response = self::get($id);
+        return json_encode($response);
+    }
+
+    public function paginador($page){
+        $registros = 3;
+        $products=[];
+        
+        $inicio = ($page > 0) ? (($page*$registros)-$registros):0;
+        $prev = $page-1;
+        $next = $page+1;
+        
+        $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM products LIMIT $inicio, $registros";
+        $datos=$this->conexion->query($sql);
+
+        while($row = $datos->fetch_assoc()){
+            $products[]=$row;
+        }
+
+        $total = $this->conexion->query("SELECT FOUND_ROWS()");
+        $total=$total->fetch_column();
+
+        $Npaginas=ceil($total/$registros);
+
+        $response=[
+            "products"=>$products,
+            "page"=>$page,
+            "per_page"=>$registros,
+            "prev"=>$prev,
+            "next"=>$next,
+            "total"=>$total,
+            "num_pages"=>$Npaginas
+        ];
+
         return json_encode($response);
     }
 
