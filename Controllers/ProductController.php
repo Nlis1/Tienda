@@ -14,8 +14,9 @@ class ProductController extends ProductModel{
     public function paginador($page){
         $registros = 3;
         $products=[];
-        
-        $inicio = ($page > 0) ? (($page*$registros)-$registros):0;
+        $page = intval($page);
+
+        $inicio = ($page > 0) ? (($page*$registros)-$registros): 0;
         $prev = $page-1;
         $next = $page+1;
         

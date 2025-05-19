@@ -80,15 +80,17 @@
                     </tr>
                 </thead>
         <tbody id="tabla_product">
+
+        </tbody>
         </table>
 </div>
 
     <div class="menu-content d-flex">
-      <button id="btn-siguiente" onclick="Siguiente()" class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-left"></i></button>
+      <button id="btn-atras"  onclick="Atras()"  class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-left"></i></button>
      <div id="menu">
       
     </div>
-      <button id="btn-atras" class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-right"></i></button>
+      <button id="btn-siguiente"  onclick="Siguiente()"  class="btn btn-success btn-raised btn-sm mx-2"><i class="bi bi-arrow-right"></i></button>
 
     </div>
 </div>
@@ -144,17 +146,23 @@
 					      <button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
                 </div>
             </form>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+        <script>
+            $(document).ready(function() {
+              // Verifica si los botones con la clase .btn-editar están presentes y se asignan correctamente
+              $(document).on('click', '.btn-editar', function() {
+                  const id = $(this).data('id');
+                  const name = $(this).data('name');
+                  const photo = $(this).data('photo');
+                  const description = $(this).data('description');
+                  const stock = $(this).data('stock');
+                  const code = $(this).data('code');
+                  const price = $(this).data('price');
 
-            <script>
-            $(document).ready(function(){
-                $('.btn-editar').on('click', function(){
-                    const id = $(this).data('id');
-                    const name = $(this).data('name');
-                    const photo = $(this).data('photo');
-                    const description = $(this).data('description');
-                    const stock = $(this).data('stock');
-                    const code = $(this).data('code');
-                    const price = $(this).data('price');
 
                     $('#input-id-up').val(id);
                     $('#input-name-up').val(name);
@@ -165,13 +173,7 @@
                     $('#input-price-up').val(price);
                 });
             });
-            </script>
-               
-            </div>
-          </div>
-        </div>
-      </div>
-
+          </script>
 
   </body>
 </html>

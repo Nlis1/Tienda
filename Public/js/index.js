@@ -4,6 +4,8 @@ let botonAtras = document.getElementById("btn-atras");
 let listarProducts = document.getElementById("tabla_product");
 let totalProduct = document.getElementById("totalProduct");
 let productos= [];
+let paginaNext= null;
+let paginaPrev= null;
 
 let url = "http://localhost/tienda/api/api.php/product";
 
@@ -23,9 +25,10 @@ function obtenerDatos(url){
   function listar(url){
         obtenerDatos(url).then(data => {
           console.log(data)
-            productos = data.products
+            dataValidate(data);
             totalProduct.innerHTML = `<h5>Total Productos: ${data.total}</h5>`;
-            render();
+
+            menu.innerHTML="";
 
             for (let i = 1; i <= data.num_pages; i++) {
                 menu.innerHTML += `<button onclick="clickBoton(${i})" id="btn-${i}" class="btn btn-success btn-raised btn-sm mx-1 btn-num">${i}</button>`;
@@ -63,7 +66,7 @@ function obtenerDatos(url){
                                 data-photo="${producto.photo}"
                                 data-description="${producto.description}"
                                 data-stock="${producto.stock}"
-                                data-code="${producto.code}"
+                                data-code="${producto.product_code}"
                                 data-price="${producto.price}">
                             <i class="bi bi-arrow-counterclockwise"></i>
                         </button>
@@ -73,11 +76,18 @@ function obtenerDatos(url){
             listarProducts.innerHTML = Usuariosrender;
   }
 
+
+ function dataValidate(data){
+      productos = data.products
+      paginaNext = data.next
+      paginaPrev = data.prev
+      render();
+ }
+
   function clickBoton(i){
         obtenerDatos(`${url}?page=${i}`)
         .then(data =>{
-            productos = data.products;
-            render();
+            dataValidate(data);
         })
 
         botones = document.getElementsByClassName('btn-num');
@@ -88,6 +98,20 @@ function obtenerDatos(url){
         boton =document.getElementById(`btn-${i}`);
         boton.classList.add('active');
 
+  }
+
+  function Siguiente(){
+      obtenerDatos(`${url}?page=${paginaNext}`)
+      .then(data =>{
+            dataValidate(data)
+        })
+  }
+  
+  function Atras(){
+      obtenerDatos(`${url}?page=${paginaPrev}`)
+      .then(data =>{
+            dataValidate(data)
+        })
   }
 
 listar(`${url}?page=1`);
