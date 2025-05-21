@@ -1,6 +1,7 @@
 <?php
 
 require_once '../Controllers/ProductController.php';
+require_once '../Controllers/CategoryController.php';
 
 header('Content-Type: application/json');
 
@@ -21,7 +22,7 @@ $id= $explode[1] ?? null;
 switch($metodo){
     case 'GET':
         $controller = new $nameController();
-        echo $controller->consultar($id, $_GET);
+        echo $controller->consultar($id);
         break;
     case 'POST':
         $controller = new $nameController();

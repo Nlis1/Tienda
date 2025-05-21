@@ -9,7 +9,7 @@ class CategoryModel{
         $this->conexion=Conexion::conectar();
     }
 
-    public function get(){
+    public function get($id=null){
        $sql = "SELECT * FROM categories";
         $response =$this->conexion->query($sql);
         $category=[];

@@ -1,14 +1,40 @@
 <?php
 
 require_once '../Models/ProductModel.php';
-class ProductController extends ProductModel{
-    public function consultar($id=null, $data){
-        $page = $data['page'] ?? false;
-        
-        if($page)  return $this->paginador($page);
+require_once '../Core/Conexion.php';
+class ProductController {
+    public $conexion;
+    public $model;
 
-        $response = self::get($id);
+    public function __construct(){
+        $this->conexion=Conexion::conectar();
+        $this->model= new ProductModel();
+    }
+    public function consultar($id=null){
+        $data = $_GET;
+        $page = $data['page'] ?? false;
+        $category = $data['category'] ?? false;
+
+        if($page)  return $this->paginador($page);
+        if($category)  return $this->productCategories($category);
+
+        $response = $this->model->get($id);    
         return json_encode($response);
+    }
+
+    public function productCategories($category){
+        $productCategory=[];
+        intval($category);
+
+        $sql= "SELECT p.id, p.name, p.description, p.photo, p.price, cp.category_id FROM `category_product` as cp 
+        INNER JOIN products as p on cp.product_id = p.id WHERE category_id='$category'";
+        $data = $this->conexion->query($sql);
+
+        while($row = $data->fetch_assoc()){
+            $productCategory[]=$row;
+        }
+
+         return json_encode($productCategory);
     }
     
     public function paginador($page){
@@ -75,7 +101,7 @@ class ProductController extends ProductModel{
             'price'=>$price,
         ];
 
-        $response= self::post($datosProduct);
+        $response= $this->model->post($datosProduct);
 
         if ($response) {
             if (isset($_POST['categories']) && is_array($_POST['categories'])) {
@@ -119,12 +145,12 @@ class ProductController extends ProductModel{
         ];
 
 
-        $response= self::put($datosProduct);
+        $response= $this->model->put($datosProduct);
         return json_encode($response);
     }
 
     public function eliminar($id){
-        $response= self::delete($id);
+        $response= $this->model->delete($id);
         return json_encode($response);
     }
 }

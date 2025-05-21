@@ -4,44 +4,52 @@ let botonAtras = document.getElementById("btn-atras");
 let listarProducts = document.getElementById("tabla_product");
 let totalProduct = document.getElementById("totalProduct");
 let productsList = document.getElementById("products_list");
+let listaCategorias = document.getElementById("list-categorias");
+
+let categorias= [];
 let productos= [];
 let allProducts = []
+
 let paginaNext= null;
 let paginaPrev= null;
 
 
 let url = "http://localhost/tienda/api/api.php/product";
 
-function listarTodosLosProductos() {
-    return new Promise((resolve, reject) => {
-      fetch("http://localhost/tienda/api/api.php/product")
-        .then(response => response.json())
-        .then(data => {
-          resolve(data)
-        })
-        .catch(error => {
-          reject(error)
-        })
-    })
-}
+    function ListarCategories(){
+        fetch("http://localhost/tienda/api/api.php/category")
+            .then(resolve => resolve.json())
+            .then(data => {
+                categorias = data
+                renderCategorias()
+            })
+    }
 
-function obtenerDatos(url){
-    return new Promise((resolve, reject) => {
-      fetch(`${url}`)
-        .then(response => response.json())
-        .then(data => {
-          resolve(data)
+    function renderCategorias(){
+        const renderCategoria = `
+        <option value="" disabled selected>Categoria</option>
+        ${categorias.map(category => `<option value="${category.id}">${category.name}</option>`).join('')}`;
+        listaCategorias.innerHTML = renderCategoria
+    }
+
+    function obtenerDatos(url){
+        return new Promise((resolve, reject) => {
+        fetch(`${url}`)
+            .then(response => response.json())
+            .then(data => {
+            resolve(data)
+            })
+            .catch(error => {
+            reject(error)
+            })
         })
-        .catch(error => {
-          reject(error)
-        })
-    })
-  }
+    }
 
   function listar(url){
         obtenerDatos(url).then(data => {
-            console.log(data)
-            dataValidate(data);
+            productos = data.products
+            console.log(productos)
+            render();
 
             totalProduct.innerHTML = `<h5>Total Productos: ${data.total}</h5>`;
             
@@ -53,7 +61,6 @@ function obtenerDatos(url){
     })
   }
   
-
   function render(){
         const Usuariosrender = productos.map((producto) =>`
                 <tr>
@@ -66,7 +73,7 @@ function obtenerDatos(url){
                     <td>${producto.stock}</td>
                     <td>${producto.product_code}</td>
                     <td>${producto.price}</td>
-                    <td></td>
+                    <td>${producto.categories.map(category => category.name)}</td>
                     <td>
                         <form action="../Api/Api.php/product/${producto.id}" method="POST" class="FormularioAjax ProductEliminar">
                             <input type="hidden" name="_method" value="DELETE">
@@ -95,6 +102,15 @@ function obtenerDatos(url){
             listarProducts.innerHTML = Usuariosrender;
   }
 
+    function listarTodosLosProductos(url) {
+    fetch(url)
+            .then(resolve => resolve.json())
+            .then(data => {
+            allProducts = data
+            console.log(allProducts)
+                renderProducts()
+            })
+    }
 
   function renderProducts(){
         const Usuariosrender = allProducts.map((producto) =>`
@@ -116,26 +132,20 @@ function obtenerDatos(url){
             productsList.innerHTML = Usuariosrender;
   }
 
-
- function dataValidate(data){
-      productos = data.products
-      paginaNext = data.next
-      paginaPrev = data.prev
-      
-        listarTodosLosProductos().then(datos => {
-        allProducts = datos
-        console.log(allProducts)
-        renderProducts();
-
-    })
-
-      render();
- }
+  function clickOption(e){
+    e.preventDefault();
+    console.log("Opción seleccionada:", e.target.value);
+    urlCategory= `${url}?category=${e.target.value}`
+    listarTodosLosProductos(urlCategory);
+  }
 
   function clickBoton(i){
         obtenerDatos(`${url}?page=${i}`)
         .then(data =>{
-            dataValidate(data);
+            productos = data.products
+            paginaNext = data.next
+            paginaPrev = data.prev
+            render()
         })
 
         botones = document.getElementsByClassName('btn-num');
@@ -145,21 +155,24 @@ function obtenerDatos(url){
 
         boton =document.getElementById(`btn-${i}`);
         boton.classList.add('active');
-
   }
 
   function Siguiente(){
       obtenerDatos(`${url}?page=${paginaNext}`)
       .then(data =>{
-            dataValidate(data)
+           productos = data.products
+            render()
         })
   }
   
   function Atras(){
       obtenerDatos(`${url}?page=${paginaPrev}`)
       .then(data =>{
-            dataValidate(data)
+            productos = data.products
+            render()
         })
   }
 
 listar(`${url}?page=1`);    
+ListarCategories();
+listarTodosLosProductos(url) 

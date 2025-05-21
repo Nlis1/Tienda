@@ -3,10 +3,12 @@
 require_once(__DIR__ . '/../Core/Conexion.php');
 require_once(__DIR__ . '/../Models/UserModel.php');
 
-class LoginController extends UserModel{
+class LoginController extends MainModal {
     public $conexion;
+    public $model;
     public function __construct(){
         $this->conexion= Conexion::conectar();
+        $this->model = new UserModel();
     }
 
     public function register(){
@@ -39,7 +41,7 @@ class LoginController extends UserModel{
                 "gender"=>$gender
             ];
     
-            $response=self::register_user($datos);
+            $response=$this->model->register_user($datos);
 
             if($response){
                 //asignar el rol del usuario
@@ -81,7 +83,7 @@ class LoginController extends UserModel{
             "email"=>$email,
             "password"=>$password
         ];
-        $user=self::validate_credentials($datosLogin);
+        $user=$this->model->validate_credentials($datosLogin);
         if($user){
             session_start();
             $userId=$user['id'];

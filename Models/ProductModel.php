@@ -17,6 +17,17 @@ class ProductModel{
         if($response){
             $data = array();
             while($row= $response->fetch_assoc()){
+                $categories=[];
+
+                $sql2 = "SELECT c.id , c.name FROM category_product as cp inner join categories as c on c.id = cp.category_id WHERE product_id=".$row['id'];
+                $stmt = $this->conexion->query($sql2);
+
+                while($fila = $stmt->fetch_assoc()){
+                    $categories[]=$fila;
+                }
+
+                $row['categories'] = $categories;
+
                 $data[]=$row;
             }
         }

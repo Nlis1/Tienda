@@ -26,17 +26,9 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="./index.php" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><select name="category" id="input-category-up"  class="form-control">
-              <?php
-                  require_once "./Models/CategoryModel.php";
+          <li >
+            <select class="form-select"  id="list-categorias" onchange="clickOption(event)">
 
-                  $insCategories= new CategoryModel;
-                  $results = $insCategories->get();
-
-                  foreach ($results as $row) {
-                      echo '<option value="'.htmlspecialchars($row['name']).'">'.htmlspecialchars($row['name']).'</option>';
-                    }
-              ?>
             </select></li>
           <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
         </ul>
@@ -64,7 +56,7 @@
   <div class="container" >
     <h1 class="text-center">Productos</h1>
      <div class="row" id="products_list"> 
-      
+
       </div>  
   </div>
 
