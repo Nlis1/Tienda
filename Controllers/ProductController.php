@@ -4,16 +4,15 @@ require_once '../Models/ProductModel.php';
 class ProductController extends ProductModel{
     public function consultar($id=null, $data){
         $page = $data['page'] ?? false;
-
+        
         if($page)  return $this->paginador($page);
 
         $response = self::get($id);
         return json_encode($response);
     }
-
+    
     public function paginador($page){
         $registros = 3;
-        $products=[];
         $page = intval($page);
 
         $inicio = ($page > 0) ? (($page*$registros)-$registros): 0;
@@ -23,14 +22,26 @@ class ProductController extends ProductModel{
         $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM products LIMIT $inicio, $registros";
         $datos=$this->conexion->query($sql);
 
-        while($row = $datos->fetch_assoc()){
-            $products[]=$row;
-        }
-
         $total = $this->conexion->query("SELECT FOUND_ROWS()");
         $total=$total->fetch_column();
 
         $Npaginas=ceil($total/$registros);
+
+        $products=[];
+
+         while($row = $datos->fetch_assoc()){
+            $categories=[];
+
+            $sql2 = "SELECT c.id , c.name FROM category_product as cp inner join categories as c on c.id = cp.category_id WHERE product_id=".$row['id'];
+            $response= $this->conexion->query($sql2);
+
+            while($fila = $response->fetch_assoc()){
+                $categories[]=$fila;
+            }
+
+            $row['categories'] = $categories;
+            $products[]=$row;
+        }
 
         $response=[
             "products"=>$products,
@@ -39,7 +50,7 @@ class ProductController extends ProductModel{
             "prev"=>$prev,
             "next"=>$next,
             "total"=>$total,
-            "num_pages"=>$Npaginas
+            "num_pages"=>$Npaginas,
         ];
 
         return json_encode($response);
@@ -65,8 +76,26 @@ class ProductController extends ProductModel{
         ];
 
         $response= self::post($datosProduct);
-        return json_encode($response);
+
+        if ($response) {
+            if (isset($_POST['categories']) && is_array($_POST['categories'])) {
+            $categorias = $_POST['categories'];
+            $product_id = $this->conexion->insert_id;
+
+            foreach ($categorias as $categoryId) {
+                $categoryProduct = $categoryId;
+            
+                $sqlInsert = "INSERT INTO category_product (category_id, product_id) VALUES (?, ?)";
+                $stmtInsert = $this->conexion->prepare($sqlInsert);
+                $stmtInsert->bind_param("ii", $categoryProduct, $product_id);
+                $stmtInsert->execute();
+                $stmtInsert->close(); 
+            }
+        }
     }
+
+    return json_encode($response);
+}
 
       public function actualizar(){
         $id = $_POST['id_up']; // lo que enviaste con input hidden

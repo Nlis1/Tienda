@@ -42,7 +42,7 @@ class ProductModel{
         $response->bind_param("sssssss", $datos['name'], $datos['description'], $datos['photo'], $datos['stock'],$datos['created_at'], $datos['product_code'], $datos['price']);
 
         $response->execute();
-
+        return true;
     }
 
     public function put($datos){

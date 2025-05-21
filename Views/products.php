@@ -50,8 +50,31 @@
                     <input type="text" required class="form-control" name="precio_product" value="" id="txtNombre" placeholder="Precio">
                 </div><br>
 
+                                
+                <div class="form-check"> 
+                  <?php
+                      require_once "../Models/CategoryModel.php";
+
+                      $insCategories = new CategoryModel();
+                      $results = $insCategories->get();
+
+                      echo '<h4>Selecciona las categorías:</h4>';
+
+                      foreach ($results as $row) {
+                          $categoryName = htmlspecialchars($row['name']);
+                          $categoryId = htmlspecialchars($row['id']); // suponiendo que hay un id
+                          echo '
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="categories[]" value="' . $categoryId . '" id="cat_' . $categoryId . '">
+                              <label class="form-check-label" for="cat_' . $categoryId . '">' . $categoryName . '</label>
+                          </div>';
+                      }
+                  ?>
+
+                </div><br>
+
                 <div class="btn-group" role="group" aria-label="">
-					<button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
+					      <button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
                 </div>
 
             </form>
@@ -76,6 +99,7 @@
                         <th>Stock</th>
                         <th>Codigo</th>
                         <th>Precio</th>
+                        <th>Categoria</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -142,6 +166,28 @@
                     <input type="text" required class="form-control" name="price_up" value="" id="input-price-up" placeholder="Precio">
                 </div><br>
 
+                  <div class="form-check">
+                 <?php
+                      require_once "../Models/CategoryModel.php";
+
+                      $insCategories = new CategoryModel();
+                      $results = $insCategories->get();
+
+                      echo '<h4>Selecciona las categorías:</h4>';
+
+                      foreach ($results as $row) {
+                          $categoryName = htmlspecialchars($row['name']);
+                          $categoryId = htmlspecialchars($row['id']); // suponiendo que hay un id
+                          echo '
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" name="categories[]" value="' . $categoryId . '" id="cat_' . $categoryId . '">
+                              <label class="form-check-label" for="cat_' . $categoryId . '">' . $categoryName . '</label>
+                          </div>';
+                      }
+                  ?>
+                </div><br>
+
+
                 <div class="btn-group" role="group" aria-label="">
 					      <button type="submit" class="btn btn-success btn-raised btn-sm"><i class="zmdi zmdi-floppy"></i> Agregar</button>
                 </div>
@@ -170,6 +216,7 @@
                     $('#input-description-up').val(description);
                     $('#input-stock-up').val(stock);
                     $('#input-code-up').val(code);
+                    $('#input-price-up').val(price);
                     $('#input-price-up').val(price);
                 });
             });

@@ -2,46 +2,9 @@
 
 require_once(__DIR__ . '/./Conexion.php');
 class MainModal{
-
-    protected function sweet_alert($datos){
-        $icon = $datos['Tipo']; // success, error, warning...
-        $title = $datos['Titulo'];
-        $text = $datos['Texto'];
-    
-        if($datos['Alerta'] == "simple"){
-            $alerta = "
-            <script>
-                Swal.fire({
-                    title: '$title',
-                    text: '$text',
-                    icon: '$icon'
-                });
-            </script>";
-        } elseif($datos['Alerta'] == "recargar"){
-            $alerta = "<script>
-                Swal.fire({
-                    title: '$title',
-                    text: '$text',
-                    icon: '$icon',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    location.reload();
-                });
-            </script>";
-        } elseif($datos['Alerta'] == "limpiar"){
-            $alerta = "<script>
-                Swal.fire({
-                    title: '$title',
-                    text: '$text',
-                    icon: '$icon',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    document.querySelector('.FormularioAjax').reset();
-                });
-            </script>";
-        }
-    
-        return $alerta;
+    public $conexion;
+   public function __construct(){
+        $this->conexion= Conexion::conectar();
     }
     
     protected function encryption($string){   

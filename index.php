@@ -26,7 +26,18 @@
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li><a href="./index.php" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-dark">Categories</a></li>
+          <li><select name="category" id="input-category-up"  class="form-control">
+              <?php
+                  require_once "./Models/CategoryModel.php";
+
+                  $insCategories= new CategoryModel;
+                  $results = $insCategories->get();
+
+                  foreach ($results as $row) {
+                      echo '<option value="'.htmlspecialchars($row['name']).'">'.htmlspecialchars($row['name']).'</option>';
+                    }
+              ?>
+            </select></li>
           <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
         </ul>
 
@@ -49,39 +60,17 @@
       </div>
     </div>
   </header>
-
-  <?php 
-    require_once('./Models/ProductModel.php');
-    $insProduct = new ProductModel();
-    $datos = $insProduct->get();
-  ?>
-
   
-  <div class="container">
+  <div class="container" >
     <h1 class="text-center">Productos</h1>
-    <div class="row"> 
-    <?php  foreach ($datos as $row) {?>
-    <div class="col-md-3">
-        <div class="card">
-            <img class="card-img-top" src="<?php echo $row['photo']?>" alt="">
+     <div class="row" id="products_list"> 
+      
+      </div>  
+  </div>
 
-            <div class="card-body">
-                <h4 class="card-title"><?php echo $row['name']?></h4>
-                <h6 class="card-title">$<?php echo $row['price']?></h6>
-                <div class="btn btn-group">
-                    <a href="./Views/detalle_product.php?id=<?php echo $row['id'] ?>" class="btn btn-primary" role="button">Detalles</a>
-                </div>
-                <button class="btn btn-outline-succes" type="button" onclick="addProducto(
-        27, '9c316a0bf478880d6ca0d71426537b03537b3c98')">Agregar al carrito</button>
-            </div>
+	<script src="./Public/js/index.js"></script>
 
-        </div>
-    </div>
-<?php } ?> 
-</div>
-
-
- <script>
+  <script>
     const sesionActiva = <?php echo $usuario_activo; ?>;
 
     document.getElementById("carritoBtn").addEventListener("click", function (e) {
@@ -95,6 +84,5 @@
     });
 </script>
 
-</div>
 </body>
 </html>
