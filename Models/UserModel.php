@@ -16,14 +16,14 @@ class UserModel extends MainModal{
         if (!$stmt) {
             die("Error al preparar la consulta: " . $this->conexion->error);
         }
-    
         $stmt->bind_param("sssssss", $datos['name'],$datos['last_name'],$datos['email'] ,$datos['address'], $datos['phone'],$datos['password'],$datos['gender']);
-        $success = $stmt->execute();
-        if (!$success) {
-            die("Error al ejecutar la consulta: " . $stmt->error);
-        }
+        if ($stmt->execute()) {
 
-        return true;
+        return $this->conexion->insert_id; 
+        
+        } else {
+            return false;
+        }
     }
 
     public function validate_credentials($datos){

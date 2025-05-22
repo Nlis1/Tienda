@@ -52,8 +52,13 @@ class ProductModel{
         $response= $this->conexion->prepare($sql);
         $response->bind_param("sssssss", $datos['name'], $datos['description'], $datos['photo'], $datos['stock'],$datos['created_at'], $datos['product_code'], $datos['price']);
 
-        $response->execute();
-        return true;
+       if ($response->execute()) {
+        $lastId = $this->conexion->insert_id;
+        $response->close();
+        return $lastId; // 👈 DEVUELVE EL ID DEL PRODUCTO
+        } else {
+            return false;
+        }
     }
 
     public function put($datos){

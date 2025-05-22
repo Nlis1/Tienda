@@ -62,7 +62,7 @@
 
                       foreach ($results as $row) {
                           $categoryName = htmlspecialchars($row['name']);
-                          $categoryId = htmlspecialchars($row['id']); // suponiendo que hay un id
+                          $categoryId = htmlspecialchars($row['id']);
                           echo '
                           <div class="form-check">
                               <input class="form-check-input" type="checkbox" name="categories[]" value="' . $categoryId . '" id="cat_' . $categoryId . '">

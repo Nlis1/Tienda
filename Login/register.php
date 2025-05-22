@@ -7,5 +7,5 @@ if(isset($_POST["email"]) && isset($_POST["password"])){
     exit();
 
 } else {
-    echo "<script>Swal.fire('Error', 'Faltan datos del formulario', 'error');</script>";
+    echo "error";
 }

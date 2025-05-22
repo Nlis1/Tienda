@@ -38,7 +38,7 @@ class ProductController {
     }
     
     public function paginador($page){
-        $registros = 3;
+        $registros = 4;
         $page = intval($page);
 
         $inicio = ($page > 0) ? (($page*$registros)-$registros): 0;
@@ -106,14 +106,12 @@ class ProductController {
         if ($response) {
             if (isset($_POST['categories']) && is_array($_POST['categories'])) {
             $categorias = $_POST['categories'];
-            $product_id = $this->conexion->insert_id;
 
             foreach ($categorias as $categoryId) {
-                $categoryProduct = $categoryId;
             
                 $sqlInsert = "INSERT INTO category_product (category_id, product_id) VALUES (?, ?)";
                 $stmtInsert = $this->conexion->prepare($sqlInsert);
-                $stmtInsert->bind_param("ii", $categoryProduct, $product_id);
+                $stmtInsert->bind_param("ii", $categoryId, $response);
                 $stmtInsert->execute();
                 $stmtInsert->close(); 
             }

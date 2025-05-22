@@ -26,9 +26,11 @@ class LoginController extends MainModal {
             if($resultado && $resultado->fetch_assoc()){
                  echo '<script type="text/javascript">
                         alert("El email ya esta registraod en el sistema");
+                        window.location.href="http://localhost/tienda/Views/register.php"
                     </script>';
             }
-        }else{
+        }
+
             $clave=MainModal::encryption($password);
 
             $datos=[
@@ -40,13 +42,15 @@ class LoginController extends MainModal {
                 "password"=>$clave,
                 "gender"=>$gender
             ];
+
+                var_dump("entro");
+
     
-            $response=$this->model->register_user($datos);
+            $user_id =$this->model->register_user($datos);
 
-            if($response){
+            if($user_id ){
                 //asignar el rol del usuario
-                $user_id = $this->conexion->insert_id;
-
+                var_dump($user_id);
                 $sql= "SELECT id FROM roles WHERE name='cliente'";
                 $response=$this->conexion->query($sql);
                 if($response && $rowRol = $response->fetch_assoc()){
@@ -70,7 +74,7 @@ class LoginController extends MainModal {
                          window.location.href="http://localhost/tienda/Views/register.php";
                       </script>';
                 }
-        }
+            
     }
 
      public function iniciar_sesion(){
