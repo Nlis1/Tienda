@@ -9,8 +9,65 @@ class ProductModel{
         $this->conexion=Conexion::conectar();
     }
 
+    public function applyFilters($id = null, $count = false){
+        $categoryId = $_GET['category_id'] ?? null;
+        $search = $_GET['search'] ?? null;
+
+        $sql= $count ? "SELECT COUNT(*) FROM products" : "SELECT * FROM products";
+
+        if($categoryId){
+            $sql .= " INNER JOIN category_product as cp on cp.product_id = products.id WHERE category_id='$categoryId'";
+        }
+
+        if($id){
+            $sql .= " WHERE id='$id'";
+        }
+
+        if($search){
+            $condition = $id ? "AND": "WHERE";
+            $sql .= " $condition name like '%$search%' or price like '$search'";
+        }
+
+        return $sql;
+    }
+
+    public function returnData($data, $total = 0){
+        $page = $_GET['page'] ?? false;
+        if(!$page) return $data;
+
+        $limit = $_GET['limit'] ?? 10;
+        $prev = $page-1;
+        $next = $page+1;
+
+        return [
+            "products"=>$data,
+            "page"=>$page,
+            "per_page"=>$limit,
+            "prev"=>$prev,
+            "next"=>$next,
+            "total"=> $total,
+            "num_pages"=> ceil($total/$limit),
+        ];
+    }
+
     public function get($id=null){
-        $sql= $id ? "SELECT * FROM products WHERE id='$id'" : "SELECT * FROM products";
+        $page = $_GET['page'] ?? false;
+        $limit = $_GET['limit'] ?? 10;
+        $total = 0;
+
+        if($page){
+            $sql= $this->applyFilters($id, true);
+        
+            $total_products = $this->conexion->query($sql);
+            $total=$total_products->fetch_column();
+        }
+
+        $sql= $this->applyFilters($id);
+        if($page){
+            $offset = $page > 1 ? $limit*($page - 1) : 0;
+            $sql .= " LIMIT $limit OFFSET $offset";
+        }
+
         $response = $this->conexion->query($sql);
 
         $data=[];
@@ -32,11 +89,9 @@ class ProductModel{
             }
         }
 
-        if(count($data) > 0){
-            return $id ? $data[0] : $data;
-        }
+        if($id) return $data[0];
 
-        return $id ? null : [];
+        return $this->returnData($data, $total);
     }
 
     public function post($datos){

@@ -5,6 +5,7 @@ let listarProducts = document.getElementById("tabla_product");
 let totalProduct = document.getElementById("totalProduct");
 let productsList = document.getElementById("products_list");
 let listaCategorias = document.getElementById("list-categorias");
+let inputText = document.getElementById("texto");
 
 let categorias= [];
 let productos= [];
@@ -106,8 +107,11 @@ let url = "http://localhost/tienda/api/api.php/product";
     fetch(url)
             .then(resolve => resolve.json())
             .then(data => {
-            allProducts = data
-            console.log(allProducts)
+                allProducts = data
+                if(inputText.value != allProducts){
+                    productsList.innerHTML = `<h3>No se encontro el producto</h3>`
+                }
+                console.log(allProducts)
                 renderProducts()
             })
     }
@@ -115,32 +119,40 @@ let url = "http://localhost/tienda/api/api.php/product";
   function renderProducts(){
         const Usuariosrender = allProducts.map((producto) =>`
                 <div class="col-md-3">
-                    <div class="card">
-                        <img class="card-img-top" src="${producto.photo}" alt="">
+                    <div class="card" >
+                        <a href="./Views/detalle_product.php?id=${producto.id}"
+                        role="button"><img class="card-img-top" src="${producto.photo}" alt=""></a>
                         <div class="card-body">
                             <h4 class="card-title">${producto.name}</h4>
                             <h6 class="card-title">${producto.price}</h6>
-                            <div class="btn btn-group">
-                                <a href="./Views/detalle_product.php?id=${producto.id}" class="btn btn-primary" role="button">Detalles</a>
-                            </div>
-                            <button class="btn btn-outline-succes" type="button" onclick="addProducto(${producto.id})">Agregar al carrito</button>
+                            <button class="btn btn-outline-primary" type="button" onclick="addProducto(${producto.id})">Agregar al carrito</button>
                         </div>
-
                     </div>
                 </div>
             `).join("");
             productsList.innerHTML = Usuariosrender;
   }
 
+  function Buscador(e){
+    e.preventDefault();
+    console.log("texto", inputText.value)
+    if(!inputText.value){
+        listarTodosLosProductos(url);
+    }else{
+        urlSearch=`${url}?search=${inputText.value}`
+        listarTodosLosProductos(urlSearch);
+    }
+  }
+
   function clickOption(e){
     e.preventDefault();
     console.log("Opción seleccionada:", e.target.value);
-    urlCategory= `${url}?category=${e.target.value}`
+    urlCategory= `${url}?category_id=${e.target.value}`
     listarTodosLosProductos(urlCategory);
   }
 
   function clickBoton(i){
-        obtenerDatos(`${url}?page=${i}`)
+        obtenerDatos(`${url}?page=${i}&limit=5`)
         .then(data =>{
             productos = data.products
             paginaNext = data.next
@@ -158,7 +170,7 @@ let url = "http://localhost/tienda/api/api.php/product";
   }
 
   function Siguiente(){
-      obtenerDatos(`${url}?page=${paginaNext}`)
+      obtenerDatos(`${url}?page=${paginaNext}&limit=5`)
       .then(data =>{
            productos = data.products
             render()
@@ -166,13 +178,13 @@ let url = "http://localhost/tienda/api/api.php/product";
   }
   
   function Atras(){
-      obtenerDatos(`${url}?page=${paginaPrev}`)
+      obtenerDatos(`${url}?page=${paginaPrev}&limit=5`)
       .then(data =>{
             productos = data.products
             render()
         })
   }
 
-listar(`${url}?page=1`);    
+listar(`${url}?page=1&limit=5`);    
 ListarCategories();
 listarTodosLosProductos(url) 

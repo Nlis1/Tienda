@@ -33,8 +33,9 @@
           <li><a href="#" class="nav-link px-2 text-dark">About</a></li>
         </ul>
 
-        <form class="col-12 col-lg-4 mb-3 mb-lg-0 me-lg-2" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-" placeholder="Search..." aria-label="Search">
+        <form class="input-group w-25 mx-2" role="search">
+          <input type="search" class="form-control form-control-dark text-bg-" id="texto" placeholder="Buscar..." aria-label="Search">
+          <button type="button" onclick="Buscador(event)" class="btn btn-primary" data-mdb-ripple-init><i class="bi bi-search"></i></button>
         </form>
 
         <div class="text-end">
