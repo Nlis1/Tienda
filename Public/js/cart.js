@@ -67,7 +67,7 @@ function sumaTotal(){
 
     productosCarrito.forEach(product => {
         subTotal += parseFloat(product.price)*product.cantidad
-        iva += parseFloat(product.price)*product.iva
+        iva += parseFloat(subTotal)*(product.iva/100)
     });
     
     let total =  subTotal + iva
@@ -77,6 +77,10 @@ function sumaTotal(){
     subtotalProduct.innerHTML= subTotal.toLocaleString('es-CO')
     totalProduct.innerHTML = totalProductos.toLocaleString('es-CO')
     precioFinal.innerHTML = total.toLocaleString('es-CO')
+}
+
+function realizarPago(e){
+  console.log(e.target)
 }
 
 mostrarCarrito();

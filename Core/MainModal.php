@@ -7,6 +7,19 @@ class MainModal{
         $this->conexion= Conexion::conectar();
     }
     
+    public function generarCodigo($longitud) {
+        $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $codigo = '';
+        $max = strlen($caracteres) - 1;
+
+        for ($i = 0; $i < $longitud; $i++) {
+            $codigo .= $caracteres[random_int(0, $max)];
+        }
+
+        return 'P-' . $codigo;
+    }
+
+    
     protected function encryption($string){   
         $output=FALSE;
         $key=hash('sha256', '$BP@2025');

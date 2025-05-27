@@ -39,12 +39,7 @@
                     <label for="txtDescuento">Stock:</label>
                     <input type="number" required class="form-control" name="stock_product" value="" id="txtDescuento" placeholder="Stock">
                 </div>
-
-                <div class="form-group">
-                    <label for="activo">Codigo:</label>
-                    <input type="text" required class="form-control" name="product_code" value="" id="txtNombre" placeholder="Codigo">
-                </div><br>
-
+          
                 <div class="form-group">
                     <label for="activo">Precio:</label>
                     <input type="text" required class="form-control" name="precio_product" value="" id="txtNombre" placeholder="Precio">
@@ -161,11 +156,6 @@
                     <label for="txtDescuento">Stock:</label>
                     <input type="number" required class="form-control" name="stock_up" value="" id="input-stock-up" placeholder="Descuento">
                 </div>
-
-                <div class="form-group">
-                    <label for="activo">Codigo:</label>
-                    <input type="text" required class="form-control" name="code_up" value="" id="input-code-up" placeholder="Codigo">
-                </div><br>
 
                   <div class="form-group">
                     <label for="activo">Precio:</label>

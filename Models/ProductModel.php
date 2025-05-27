@@ -96,6 +96,7 @@ class ProductModel{
 
     public function post($datos){
         $data= json_decode(file_get_contents('php://input'), true);
+        $product_code = 
         // $name_product=$data['name'];
         // $description_product=$data['description'];
         // $photo_product=$data['photo'];
@@ -132,7 +133,6 @@ class ProductModel{
                 `photo` = '{$datos['photo']}', 
                 `stock` = '{$datos['stock']}', 
                 `updated_at` = ' {$datos['updated_at']}', 
-                `product_code` = '{$datos['product_code']}', 
                 `price` = '{$datos['price']}',
                 `iva` = '{$datos['iva']}'
             WHERE id = '{$datos['id']}'";

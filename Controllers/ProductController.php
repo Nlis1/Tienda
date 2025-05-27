@@ -2,13 +2,16 @@
 
 require_once '../Models/ProductModel.php';
 require_once '../Core/Conexion.php';
+require_once '../Core/MainModal.php';
 class ProductController {
     public $conexion;
     public $model;
+    public $mainModal;
 
     public function __construct(){
         $this->conexion=Conexion::conectar();
         $this->model= new ProductModel();
+        $this->mainModal= new MainModal();
     }
     public function consultar($id=null){
         $response = $this->model->get($id);    
@@ -21,10 +24,10 @@ class ProductController {
         $photo=$_POST['photo_product'];
         $stock=$_POST['stock_product'];
         $created_at= date("Y-m-d H:i:s");
-        $product_code=$_POST['product_code'];
         $price = $_POST['precio_product'];
         $iva = $_POST['iva_product'];
- 
+        $product_code= $this->mainModal->generarCodigo(8);
+
         $datosProduct=[
             'name'=>$name,
             'description'=>$description,
@@ -62,18 +65,16 @@ class ProductController {
         $photo = $_POST['photo_up'];
         $description = $_POST['description_up'];
         $stock = $_POST['stock_up'];
-        $code = $_POST['code_up'];
         $price = $_POST['price_up'];
         $iva = $_POST['iva_up'];
         $updated_at = date("Y-m-d H:i:s");
-
+        
         $datosProduct = [
             'id' => $id,
             'name' => $name,
             'photo' => $photo,
             'description' => $description,
             'stock' => $stock,
-            'product_code' => $code,
             'updated_at'=>$updated_at,
             'price'=>$price,
             'iva'=>$iva

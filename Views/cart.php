@@ -41,12 +41,11 @@
         <div class="container mt-4">
         <h2 class="pb-3">Productos</h2>
         <div class="row">
+
         <!-- Lista de productos -->
         <div class="col-md-8 overflow-y-scroll" style="height: 500px;" id="product-cart">
     
         </div>
-
-       
                 <div class="col-md-4">
                     <div class="resumen">
                     <h5>Resumen del Pedido</h5>
@@ -54,7 +53,7 @@
                     <p>Subtotal: <strong id="subtotal-product">$17.352</strong></p>
                     <p>Iva: <strong id="iva-product" >200</strong></p>
                     <p>Total a pagar: <strong id="precio-final"></strong></p>
-                    <button class="btn btn-success w-100 mt-3">Pagar ahora</button>
+                    <button class="btn btn-success w-100 mt-3" onclick="realizarPago(event)">Pagar ahora</button>
                     </div>
                 </div>
             </div>
