@@ -23,6 +23,7 @@ class ProductController {
         $created_at= date("Y-m-d H:i:s");
         $product_code=$_POST['product_code'];
         $price = $_POST['precio_product'];
+        $iva = $_POST['iva_product'];
  
         $datosProduct=[
             'name'=>$name,
@@ -32,6 +33,7 @@ class ProductController {
             'created_at'=>$created_at,
             'product_code'=>$product_code,
             'price'=>$price,
+            'iva'=>$iva,
         ];
 
         $response= $this->model->post($datosProduct);
@@ -62,6 +64,7 @@ class ProductController {
         $stock = $_POST['stock_up'];
         $code = $_POST['code_up'];
         $price = $_POST['price_up'];
+        $iva = $_POST['iva_up'];
         $updated_at = date("Y-m-d H:i:s");
 
         $datosProduct = [
@@ -72,7 +75,8 @@ class ProductController {
             'stock' => $stock,
             'product_code' => $code,
             'updated_at'=>$updated_at,
-            'price'=>$price
+            'price'=>$price,
+            'iva'=>$iva
         ];
 
 

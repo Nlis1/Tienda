@@ -87,6 +87,7 @@
 		</div>
 	</section>
 
+    <script src="../Public/js/localStorage.js"></script>
 	  <script src="../Public/js/index.js"></script>
 	  <script src="../Public/js/main.js"></script>
      

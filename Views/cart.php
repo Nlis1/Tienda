@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </head>
 <body>
-
         <header class="p-3 mb-3 border-bottom">
             <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -30,75 +29,41 @@
                 <div class="text-end">
                 <a href="./login.php"> <i class="bi bi-person fs-3"></i></a>
                 <a> <i class="bi bi-heart fs-3"></i></a>
-                <a><i class="bi bi-cart fs-3"></i></a>
+                <a href="#" id="carritoBtn"><i class="bi bi-cart fs-3"></i>
                 <span id="numero_carrito">0</span>
+                </a>
                 </div>
             </div>
             </div>
         </header>
 
     <main>
-        <div class="container-cart">
-            <section class="section-product">
-                <div>
-                    <h4 class="text-center mb-5" >Productos</h4>
-                    <div class="card mb-5 p-3" id="body-carrito">
-                        <div class="card-body-cart">
-                            <div>
-                                <img class="img-produc" src="https://http2.mlstatic.com/D_Q_NP_2X_974191-MLU76103352428_052024-AB.webp" alt="">
-                            </div>
-                            <div class="">
-                                <h5>Proyector mini CHOWA Proyectores B2 300lm blanco 110V</h5>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around">
-                            <span>Precio</span>
-                            <p class="card-text" id="x&quot;total-53071&quot;">$53071</p>
-                            <div>
-                                <button class="btn-disminuir" onclick="botonDisminuir(0)">-</button>
-                                <input type="number" id="cantidad-product">
-                                <button class="btn-incrementar" onclick="botonIncrementar(0)">+</button>
-                            </div>
-                            <div>
-                                <a><i class="bi bi-trash fs-3"></i></a>
-                            </div>
-                        </div>
-                    </div> 
-                    
-                    <div class="card mb-5" id="body-carrito">
-                        <div class="card-body-cart">
-                            <div>
-                                <img class="img-produc" src="https://http2.mlstatic.com/D_Q_NP_2X_832268-MLU72931771705_112023-AB.webp" alt="">
-                            </div>
-                            <div class="">
-                                <h5>Audífonos inalámbricos Bluetooth Sleve Evo 2da Gen Black Color Negro</h5>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around">
-                            <span>Precio</span>
-                            <p class="card-text" id="x&quot;total-53071&quot;">$53071</p>
-                            <div>
-                                <button class="btn-disminuir" onclick="botonDisminuir(0)">-</button>
-                                <input type="number" id="cantidad-product">
-                                <button class="btn-incrementar" onclick="botonIncrementar(0)">+</button>
-                            </div>
-                            <div>
-                                <a><i class="bi bi-trash fs-3"></i></a>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-            </section>
-
-            <section class="section-pago">
-                <div>
-                    <h4>Total</h4>
-                    <span id="total-productos">0</span><br>
-                    <button class="btn-compra">Realizar compra</button>
-                </div>
-            </section>
+        <div class="container mt-4">
+        <h2 class="pb-3">Productos</h2>
+        <div class="row">
+        <!-- Lista de productos -->
+        <div class="col-md-8 overflow-y-scroll" style="height: 500px;" id="product-cart">
+    
         </div>
+
+       
+                <div class="col-md-4">
+                    <div class="resumen">
+                    <h5>Resumen del Pedido</h5>
+                    <p>Total productos: <strong id="total-product" ></strong></p>
+                    <p>Subtotal: <strong id="subtotal-product">$17.352</strong></p>
+                    <p>Iva: <strong id="iva-product" >200</strong></p>
+                    <p>Total a pagar: <strong id="precio-final"></strong></p>
+                    <button class="btn btn-success w-100 mt-3">Pagar ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
+
+    <script src="../Public/js/localStorage.js"></script>
+    <script src="../Public/js/cart.js"></script>
    
 </body>
 </html>

@@ -103,9 +103,9 @@ class ProductModel{
         // $created_at=$data['created_at'];
         // $product_code=$data['product_code'];
 
-        $sql="INSERT INTO products(`name`, `description`, photo, stock, created_at, product_code, price) VALUES(?,?,?,?,?,?,?)";
+        $sql="INSERT INTO products(`name`, `description`, photo, stock, created_at, product_code, price, iva) VALUES(?,?,?,?,?,?,?,?)";
         $response= $this->conexion->prepare($sql);
-        $response->bind_param("sssssss", $datos['name'], $datos['description'], $datos['photo'], $datos['stock'],$datos['created_at'], $datos['product_code'], $datos['price']);
+        $response->bind_param("ssssssss", $datos['name'], $datos['description'], $datos['photo'], $datos['stock'],$datos['created_at'], $datos['product_code'], $datos['price'], $datos['iva']);
 
        if ($response->execute()) {
         $lastId = $this->conexion->insert_id;
@@ -133,7 +133,8 @@ class ProductModel{
                 `stock` = '{$datos['stock']}', 
                 `updated_at` = ' {$datos['updated_at']}', 
                 `product_code` = '{$datos['product_code']}', 
-                `price` = '{$datos['price']}' 
+                `price` = '{$datos['price']}',
+                `iva` = '{$datos['iva']}'
             WHERE id = '{$datos['id']}'";
         $response=$this->conexion->query($sql);
         return $response;

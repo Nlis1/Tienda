@@ -74,6 +74,7 @@ let url = "http://localhost/tienda/api/api.php/product";
                     <td>${producto.stock}</td>
                     <td>${producto.product_code}</td>
                     <td>${producto.price}</td>
+                    <td>${producto.iva}</td>
                     <td>${producto.categories.map(category => category.name)}</td>
                     <td>
                         <form action="../Api/Api.php/product/${producto.id}" method="POST" class="FormularioAjax ProductEliminar">
@@ -94,7 +95,8 @@ let url = "http://localhost/tienda/api/api.php/product";
                                 data-description="${producto.description}"
                                 data-stock="${producto.stock}"
                                 data-code="${producto.product_code}"
-                                data-price="${producto.price}">
+                                data-price="${producto.price}"
+                                data-iva="${producto.iva}">
                             <i class="bi bi-arrow-counterclockwise"></i>
                         </button>
                     </td>
@@ -117,15 +119,15 @@ let url = "http://localhost/tienda/api/api.php/product";
     }
 
   function renderProducts(){
-        const Usuariosrender = allProducts.map((producto) =>`
+        const Usuariosrender = allProducts.map((producto, index) =>`
                 <div class="col-md-3">
                     <div class="card" >
                         <a href="./Views/detalle_product.php?id=${producto.id}"
-                        role="button"><img class="card-img-top" src="${producto.photo}" alt=""></a>
+                        role="button"><img class="card-img-top" src="${producto.photo}" alt=""> </a>
                         <div class="card-body">
                             <h4 class="card-title">${producto.name}</h4>
                             <h6 class="card-title">${producto.price}</h6>
-                            <button class="btn btn-outline-primary" type="button" onclick="addProducto(${producto.id})">Agregar al carrito</button>
+                            <button class="btn btn-outline-primary btn-carrito-${index}" type="button" onclick="agregarCarrito(${index})">${estaEnElCarrito(producto.id) ? 'Agregado' : 'Agregar al carrito'}</button>
                         </div>
                     </div>
                 </div>

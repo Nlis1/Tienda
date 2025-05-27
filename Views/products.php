@@ -50,6 +50,11 @@
                     <input type="text" required class="form-control" name="precio_product" value="" id="txtNombre" placeholder="Precio">
                 </div><br>
 
+                <div class="form-group">
+                    <label for="activo">Iva:</label>
+                    <input type="text" required class="form-control" name="iva_product" value="" id="txtNombre" placeholder="Iva">
+                </div><br>
+
                                 
                 <div class="form-check"> 
                   <?php
@@ -99,6 +104,7 @@
                         <th>Stock</th>
                         <th>Codigo</th>
                         <th>Precio</th>
+                        <th>Iva</th>
                         <th>Categoria</th>
                         <th>Acciones</th>
                     </tr>
@@ -166,6 +172,11 @@
                     <input type="text" required class="form-control" name="price_up" value="" id="input-price-up" placeholder="Precio">
                 </div><br>
 
+                 <div class="form-group">
+                    <label for="activo">Iva:</label>
+                    <input type="text" required class="form-control" name="iva_up" value="" id="input-iva-up" placeholder="Iva">
+                </div><br>
+
                   <div class="form-check">
                  <?php
                       require_once "../Models/CategoryModel.php";
@@ -208,6 +219,7 @@
                   const stock = $(this).data('stock');
                   const code = $(this).data('code');
                   const price = $(this).data('price');
+                  const iva = $(this).data('iva');
 
 
                     $('#input-id-up').val(id);
@@ -217,7 +229,7 @@
                     $('#input-stock-up').val(stock);
                     $('#input-code-up').val(code);
                     $('#input-price-up').val(price);
-                    $('#input-price-up').val(price);
+                    $('#input-iva-up').val(iva);
                 });
             });
           </script>

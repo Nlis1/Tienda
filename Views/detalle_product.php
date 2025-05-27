@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda</title>
-    <link rel="stylesheet" href="./Public/css/style.css">
+    <link rel="stylesheet" href="../Public/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
@@ -36,6 +36,7 @@
                 <a> <i class="bi bi-heart fs-3"></i></a>
                 <a href="./Login/logout.php"><i class="bi bi-box-arrow-left fs-3"></i></a>
           <?php } ?>
+
           <a href="#" id="carritoBtn"><i class="bi bi-cart fs-3"></i>
           <span id="numero_carrito">0</span>
          </a>
@@ -74,8 +75,13 @@
 
         <div class="d-grip gap-3 col-10 mx-auto" >
         <button class="btn btn-primary" type="button">Comprar ahora</button>
-        <button class="btn btn-outline-primary" type="button" onclick="addProducto(<?php echo $id;?>, cantidad.value, '<?php echo $token_tmp; ?>')">Agregar al carrito</button>
+        <button class="btn btn-outline-primary" type="button" onclick="agregarCarrito(<?php echo $dato['id']?>, cantidad.value)">Agregar al carrito</button>
         </div>
         </div>
     </div>
 </div>
+
+<script src="../Public/js/localStorage.js"></script>
+<script src="../Public/js/index.js"></script>
+</body>
+</html>

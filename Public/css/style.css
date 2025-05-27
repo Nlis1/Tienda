@@ -15,6 +15,10 @@
     background-color: #495867;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 .section-product{
     display: flex;
     width: 60%;
