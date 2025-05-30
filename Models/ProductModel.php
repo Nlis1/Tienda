@@ -13,7 +13,7 @@ class ProductModel{
         $categoryId = $_GET['category_id'] ?? null;
         $search = $_GET['search'] ?? null;
 
-        $sql= $count ? "SELECT COUNT(*) FROM products" : "SELECT * FROM products";
+        $sql= $count ? "SELECT COUNT(*) FROM products" : "SELECT *, ROUND(products.price*(1 + products.iva/100), 2) as price_with_iva FROM products ORDER BY created_at DESC";
 
         if($categoryId){
             $sql .= " INNER JOIN category_product as cp on cp.product_id = products.id WHERE category_id='$categoryId'";
@@ -120,7 +120,7 @@ class ProductModel{
     public function put($datos){
         $data= json_decode(file_get_contents('php://input'), true);
         // $name_product=$data['name'];
-        // $description_product=$data['description'];
+        // $description_product=$data['descripstion'];
         // $photo_product=$data['photo'];
         // $stock_product=$data['stock'];
         // $created_at=$data['created_at'];

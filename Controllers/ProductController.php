@@ -4,9 +4,7 @@ require_once '../Models/ProductModel.php';
 require_once '../Core/Conexion.php';
 require_once '../Core/MainModal.php';
 class ProductController {
-    public $conexion;
-    public $model;
-    public $mainModal;
+    public $model, $mainModal, $conexion;
 
     public function __construct(){
         $this->conexion=Conexion::conectar();
@@ -26,7 +24,7 @@ class ProductController {
         $created_at= date("Y-m-d H:i:s");
         $price = $_POST['precio_product'];
         $iva = $_POST['iva_product'];
-        $product_code= $this->mainModal->generarCodigo(8);
+        $product_code= $this->mainModal->generarCodigo('P-',8);
 
         $datosProduct=[
             'name'=>$name,

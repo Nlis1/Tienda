@@ -45,11 +45,11 @@
 
         <div class="text-end d-flex">
           <div class="dropdown">
-            <a href="./Views/login.php" class="dropdown-toggle"   data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-person fs-3"></i></a>
+            <a href="./Views/login.php" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-person fs-3"></i></a>
             <?php if(isset($_SESSION['nombre'])){ ?>
              <?php echo $_SESSION['nombre']." ".$_SESSION['apellido'];?> 
             <ul class="dropdown-menu text-small shadow ">
-              <li><a href="./Views/pedidos.php" class="dropdown-item"> <i class="bi bi-box"></i> Pedidos</a></li>
+              <li><a href="./Views/orders.php" class="dropdown-item"> <i class="bi bi-box"></i> Pedidos</a></li>
               <li><a class="dropdown-item"> <i class="bi bi-heart"></i> Favoritos</a></li>
                <li><a class="dropdown-item" href="./Login/logout.php"><i class="bi bi-box-arrow-left"></i> Cerrar Sesion</a></li>
             </ul>

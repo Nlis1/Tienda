@@ -31,7 +31,7 @@ function mostrarCarrito(){
                 </div>
             </div>
             <div class="col-md-3 d-flex flex-column justify-content-between align-items-center p-3">
-              <p class="precio-final">${product.price}</p>
+              <p class="precio-final">${product.price_with_iva}</p>
               <div class="acciones">
                 <button type="submit" onclick="eliminarDelCarrito(${product.id})" class="btn"><i class="bi bi-trash" title="Eliminar"></i></button>
                 <button type="submit" class="btn"> <i class="bi bi-heart" title="Guardar en favoritos"></i></button>
@@ -66,21 +66,18 @@ function sumaTotal(){
     let iva= 0
 
     productosCarrito.forEach(product => {
-        subTotal += parseFloat(product.price)*product.cantidad
-        iva += parseFloat(subTotal)*(product.iva/100)
-    });
+        subTotal += product.price*product.cantidad
+        iva += subTotal*(product.iva/100)
+    })
     
     let total =  subTotal + iva
     let totalProductos = getItemCarritoLocalStorage().length
 
-    ivaProduct.innerHTML = iva.toLocaleString('es-CO')
-    subtotalProduct.innerHTML= subTotal.toLocaleString('es-CO')
-    totalProduct.innerHTML = totalProductos.toLocaleString('es-CO')
-    precioFinal.innerHTML = total.toLocaleString('es-CO')
-}
+    ivaProduct.innerHTML = iva
+    subtotalProduct.innerHTML= subTotal
+    totalProduct.innerHTML = totalProductos
+    precioFinal.innerHTML = total
+  }
 
-function realizarPago(e){
-  console.log(e.target)
-}
 
 mostrarCarrito();

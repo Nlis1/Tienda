@@ -7,7 +7,7 @@ class MainModal{
         $this->conexion= Conexion::conectar();
     }
     
-    public function generarCodigo($longitud) {
+    public function generarCodigo($letra,$longitud) {
         $caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $codigo = '';
         $max = strlen($caracteres) - 1;
@@ -16,7 +16,7 @@ class MainModal{
             $codigo .= $caracteres[random_int(0, $max)];
         }
 
-        return 'P-' . $codigo;
+        return $letra . $codigo;
     }
 
     

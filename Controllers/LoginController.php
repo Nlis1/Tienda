@@ -4,8 +4,7 @@ require_once(__DIR__ . '/../Core/Conexion.php');
 require_once(__DIR__ . '/../Models/UserModel.php');
 
 class LoginController extends MainModal {
-    public $conexion;
-    public $model;
+    public $conexion, $model;
     public function __construct(){
         $this->conexion= Conexion::conectar();
         $this->model = new UserModel();
@@ -92,6 +91,7 @@ class LoginController extends MainModal {
             session_start();
             $userId=$user['id'];
             $_SESSION['nombre'] = $user['name'];
+            $_SESSION['id'] = $user['id'];
             $_SESSION['apellido'] = $user['last_name'];
 
             $sql = "SELECT rol_id FROM rol_user WHERE user_id='$userId'";
@@ -104,7 +104,7 @@ class LoginController extends MainModal {
                     return $urlLocation;
                 }else if($rol==="2"){
                     $_SESSION['admin'] = $rol;
-                    $url="http://localhost/tienda/Views/administrador.php";
+                    $url="http://localhost/tienda/Views/products.php";
                     $urlLocation='<script> window.location="'.$url.'"</script>';
                     return $urlLocation;
                 }

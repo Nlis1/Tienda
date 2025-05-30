@@ -1,10 +1,13 @@
 $(document).on("submit", ".FormularioAjax", function (e) {
+  console.log('picha')
   e.preventDefault();
 
   const form = $(this)[0]; // DOM puro
   const action = $(this).attr('action');
   const method = $(this).attr('method') || "POST";
   const formData = new FormData(form); // captura todo correctamente
+
+  formData.append('carrito', JSON.stringify(productosCarrito));
   
   $.ajax({
     method: method,
@@ -14,8 +17,17 @@ $(document).on("submit", ".FormularioAjax", function (e) {
     contentType: false,
     success: function (respuesta) {
       console.log("Respuesta del servidor:", respuesta);
-
       const $form = $(form); // para poder usar jQuery más abajo
+
+      if($form.hasClass("InsertarPedido")){
+        alert('Pedido Agregado Correctamente!')
+        $form.trigger("reset");
+        let modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+        modal.hide();
+
+        localStorage.removeItem('carrito'); 
+        window.location.href = '../index.php'; 
+      }
 
       if ($form.hasClass("Editar")) {
         alert("Editado correctamente");

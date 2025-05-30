@@ -3,8 +3,7 @@
 require_once '../Models/CategoryModel.php';
 require_once '../Core/Conexion.php';
 class CategoryController {
-    public $conexion;
-    public $model;
+    public $conexion,$model;
 
     public function __construct(){
         $this->conexion=Conexion::conectar();

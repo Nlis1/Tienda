@@ -4,12 +4,14 @@ let botonAtras = document.getElementById("btn-atras");
 let listarProducts = document.getElementById("tabla_product");
 let totalProduct = document.getElementById("totalProduct");
 let productsList = document.getElementById("products_list");
+let PedidosList = document.getElementById("body-pedidos");
 let listaCategorias = document.getElementById("list-categorias");
 let inputText = document.getElementById("texto");
 
 let categorias= [];
 let productos= [];
 let allProducts = []
+let orders = []
 
 let paginaNext= null;
 let paginaPrev= null;
@@ -24,6 +26,31 @@ let url = "http://localhost/tienda/api/api.php/product";
                 categorias = data
                 renderCategorias()
             })
+    }
+    
+    function listarPedidos(){
+        fetch("http://localhost/tienda/api/api.php/order")
+            .then(resolve => resolve.json())
+            .then(data => {
+                orders = data
+                console.log(orders)
+                renderPedidos();
+            })
+    }
+
+    function renderPedidos(){
+        const pedidosRender = orders.map((order) =>`
+        <tr>
+            <td>${order.code_order}</td>
+            <td>${order.user_id}</td>
+            <td>${order.order_date}</td>
+            <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+            <td>1444</td>
+            <td>
+            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#verPedidoModal">Ver</button>
+            </td>
+        </tr> `).join("");
+        PedidosList.innerHTML = pedidosRender
     }
 
     function renderCategorias(){
@@ -51,7 +78,6 @@ let url = "http://localhost/tienda/api/api.php/product";
             productos = data.products
             console.log(productos)
             render();
-
             totalProduct.innerHTML = `<h5>Total Productos: ${data.total}</h5>`;
             
             menu.innerHTML="";
@@ -73,7 +99,7 @@ let url = "http://localhost/tienda/api/api.php/product";
                     <td>${producto.description}</td>
                     <td>${producto.stock}</td>
                     <td>${producto.product_code}</td>
-                    <td>${producto.price}</td>
+                    <td>${producto.price_with_iva}</td>
                     <td>${producto.iva}</td>
                     <td>${producto.categories.map(category => category.name)}</td>
                     <td>
@@ -112,11 +138,13 @@ let url = "http://localhost/tienda/api/api.php/product";
                 allProducts = data
                 if(inputText.value != allProducts){
                     productsList.innerHTML = `<h3>No se encontro el producto</h3>`
-                }
-                console.log(allProducts)
+                }  
+                
+                console.log(allProducts) 
                 renderProducts()
             })
     }
+
 
   function renderProducts(){
         const Usuariosrender = allProducts.map((producto, index) =>`
@@ -126,7 +154,7 @@ let url = "http://localhost/tienda/api/api.php/product";
                         role="button"><img class="card-img-top" src="${producto.photo}" alt=""> </a>
                         <div class="card-body">
                             <h4 class="card-title">${producto.name}</h4>
-                            <h6 class="card-title">${producto.price}</h6>
+                            <h6 class="card-title">${producto.price_with_iva}</h6>
                             <button class="btn btn-outline-primary btn-carrito-${index}" type="button" onclick="agregarCarrito(${index})">${estaEnElCarrito(producto.id) ? 'Agregado' : 'Agregar al carrito'}</button>
                         </div>
                     </div>
@@ -189,4 +217,5 @@ let url = "http://localhost/tienda/api/api.php/product";
 
 listar(`${url}?page=1&limit=5`);    
 ListarCategories();
+listarPedidos();
 listarTodosLosProductos(url) 
