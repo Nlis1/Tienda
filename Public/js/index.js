@@ -7,11 +7,13 @@ let productsList = document.getElementById("products_list");
 let PedidosList = document.getElementById("body-pedidos");
 let listaCategorias = document.getElementById("list-categorias");
 let inputText = document.getElementById("texto");
+let detallePedido = document.getElementById("detallePedido")
 
 let categorias= [];
 let productos= [];
 let allProducts = []
 let orders = []
+let detalleOrder=[]
 
 let paginaNext= null;
 let paginaPrev= null;
@@ -42,15 +44,45 @@ let url = "http://localhost/tienda/api/api.php/product";
         const pedidosRender = orders.map((order) =>`
         <tr>
             <td>${order.code_order}</td>
-            <td>${order.user_id}</td>
+            <td>${order.name} ${order.last_name}</td>
             <td>${order.order_date}</td>
-            <td><span class="badge bg-warning text-dark">Pendiente</span></td>
-            <td>1444</td>
+            <td><span class="badge bg-warning text-dark">${order.status}</span></td>
+            <td>${order.total}</td>
             <td>
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#verPedidoModal">Ver</button>
+            <button class="btn btn-primary btn-sm" onclick="verDetallePedido(${order.id})" data-bs-toggle="modal" data-bs-target="#verPedidoModal">Ver</button>
             </td>
         </tr> `).join("");
         PedidosList.innerHTML = pedidosRender
+    }
+
+    function verDetallePedido(id){
+        fetch(`http://localhost/tienda/api/api.php/order/${id}`)
+        .then(resolve => resolve.json())
+        .then(data => {
+            detalleOrder = data
+            console.log(detalleOrder)
+            renderDetalleOrder()
+        })
+    }
+
+    function renderDetalleOrder(){
+        document.getElementById("nameClient").textContent = `Cliente: ${detalleOrder.user.name} ${detalleOrder.user.last_name}`;
+        document.getElementById("emailClient").textContent = `Correo: ${detalleOrder.user.email}`;
+        document.getElementById("addressClient").textContent = `Direccion: ${detalleOrder.adress_destination}`;
+        document.getElementById("phoneClient").textContent = `Celular: ${detalleOrder.user.phone}`;
+        document.getElementById("countryClient").textContent = `Pais: ${detalleOrder.country_destination}`;
+        document.getElementById("totalProducts").textContent = `Total: ${detalleOrder.total}`;
+         const pedidosRender = detalleOrder.detail_order.map((detailOrder)=> `
+            <tr>
+              <td>${detailOrder.product_id}</td>
+              <td>${detailOrder.name}</td>
+              <td>${detailOrder.quantity}</td>
+              <td>${detailOrder.iva}</td>
+              <td>${detailOrder.unit_price}</td>
+              <td>${detailOrder.unit_price * detailOrder.quantity}</td>
+            </tr>
+         `).join("")
+         detallePedido.innerHTML = pedidosRender
     }
 
     function renderCategorias(){

@@ -10,6 +10,15 @@ class UserModel extends MainModal{
         $this->conexion= Conexion::conectar();
     }
 
+    public function get($id=null){
+        $sql = !empty($id) ? "SELECT * FROM users WHERE id='$id '" : "SELECT * FROM users";
+        $response = $this->conexion->query($sql);
+
+        if($response){
+            return $response->fetch_assoc();
+        }
+    }
+
     public function register_user($datos){
         $sql="INSERT INTO users (`name`,  last_name, email,`address`, phone, `password`, gender) VALUES (?,?,?,?,?,?,?)";
         $stmt=$this->conexion->prepare($sql);

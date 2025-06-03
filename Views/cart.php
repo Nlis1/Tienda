@@ -76,7 +76,7 @@
         <div class="col-md-8 overflow-y-scroll" style="height: 500px;" id="product-cart">
     
         </div>
-                <div class="col-md-4">
+                <div class="col-md-4">  
                     <div class="resumen">
                     <h5>Resumen del Pedido</h5>
                     <p>Total productos: <strong id="total-product" ></strong></p>

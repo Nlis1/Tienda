@@ -14,8 +14,8 @@ class OrderController{
         $this->conexion = Conexion::conectar();
     }
 
-    public function consultar(){
-        $response = $this->model->get($id=null);    
+    public function consultar($id=null){
+        $response = $this->model->get($id);    
         return json_encode($response);
     }
 
@@ -24,7 +24,9 @@ class OrderController{
         header('Content-Type: application/json');
 
         $carrito = isset($_POST['carrito']) ? json_decode($_POST['carrito'], true) : null;
-
+        $subtotal = $_POST['subtotal'] ?? 0;
+        $iva_total = $_POST['iva_total'] ?? 0;
+        $total = $_POST['total'] ?? 0;
         $code_order = $this->mainModal->generarCodigo('OR-',6);
         $city = $_POST['pais'];
         $direccion = $_POST['direccion'];
@@ -34,6 +36,10 @@ class OrderController{
 
         $datosOrder = [
             'code_order'=>$code_order,
+            'total'=>$total,
+            'subtotal'=>$subtotal,
+            'iva'=>$iva_total,
+            'status'=>"Pagado",
             'destination_city'=>$city,
             'adress_destination'=>$direccion,
             'country_destination'=>$country,

@@ -6,8 +6,14 @@ $(document).on("submit", ".FormularioAjax", function (e) {
   const action = $(this).attr('action');
   const method = $(this).attr('method') || "POST";
   const formData = new FormData(form); // captura todo correctamente
+  const subtotal = $('#subtotal-product').text().trim();
+  const iva = $('#iva-product').text().trim();
+  const total = $('#precio-final').text().trim();
 
   formData.append('carrito', JSON.stringify(productosCarrito));
+  formData.append('subtotal', subtotal);
+  formData.append('iva_total', iva); // evitar confusión con iva del producto
+  formData.append('total', total);
   
   $.ajax({
     method: method,

@@ -10,25 +10,45 @@ class ProductModel{
     }
 
     public function applyFilters($id = null, $count = false){
-        $categoryId = $_GET['category_id'] ?? null;
-        $search = $_GET['search'] ?? null;
+            $categoryId = $_GET['category_id'] ?? null;
+            $search = $_GET['search'] ?? null;
 
-        $sql= $count ? "SELECT COUNT(*) FROM products" : "SELECT *, ROUND(products.price*(1 + products.iva/100), 2) as price_with_iva FROM products ORDER BY created_at DESC";
+            // FROM + JOIN
+            $from = "FROM products";
+            if ($categoryId) {
+                $from .= " INNER JOIN category_product as cp ON cp.product_id = products.id";
+            }
 
-        if($categoryId){
-            $sql .= " INNER JOIN category_product as cp on cp.product_id = products.id WHERE category_id='$categoryId'";
-        }
+            // WHERE conditions
+            $conditions = [];
 
-        if($id){
-            $sql .= " WHERE id='$id'";
-        }
+            if ($categoryId) {
+                $conditions[] = "cp.category_id = '$categoryId'";
+            }
 
-        if($search){
-            $condition = $id ? "AND": "WHERE";
-            $sql .= " $condition name like '%$search%' or price like '$search'";
-        }
+            if ($id) {
+                $conditions[] = "products.id = '$id'";
+            }
 
-        return $sql;
+            if ($search) {
+                $escapedSearch = $this->conexion->real_escape_string($search); // evitar inyección SQL
+                $conditions[] = "(products.name LIKE '%$escapedSearch%' OR products.price LIKE '%$escapedSearch%')";
+            }
+
+            // Convertimos condiciones a string
+            $where = '';
+            if (count($conditions) > 0) {
+                $where = " WHERE " . implode(" AND ", $conditions);
+            }
+
+            // SELECT
+            if ($count) {
+                $sql = "SELECT COUNT(*) $from $where";
+            } else {
+                $sql = "SELECT products.*, ROUND(products.price*(1 + products.iva/100), 2) as price_with_iva $from $where ORDER BY products.created_at DESC";
+            }
+
+            return $sql;    
     }
 
     public function returnData($data, $total = 0){

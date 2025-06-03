@@ -66,37 +66,35 @@
       </div>
     </div>
   </header>
-  
-  <div class="container" >
-    <h1 class="text-center">Productos</h1>
-     <div class="row" id="products_list"> 
 
-      </div>  
-  </div>
-  
-	<script src="./Public/js/localStorage.js"></script>
-	<script src="./Public/js/index.js"></script>
-	<script src="./Public/js/cartManager.js"></script>
-	<script src="./Public/js/cart.js"></script>
+  <div class="container mt-5">
+  <h2 class="mb-4">Editar Perfil</h2>
+  <form action="guardar_perfil.php" method="POST" enctype="multipart/form-data">
+    <div class="row mb-3">
+      <div class="col-md-4 text-center">
+        <img src="tu_imagen.jpg" class="img-thumbnail rounded-circle mb-3" alt="Foto de perfil" width="150">
+        <input type="file" name="imagen" class="form-control">
+      </div>
+      <div class="col-md-8">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre completo</label>
+          <input type="text" class="form-control" id="nombre" name="nombre" value="Tu Nombre">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" value="correo@ejemplo.com">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Nueva contraseña</label>
+          <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </form>
+</div>
 
-  <script>
-    const sesionActiva = <?php echo $usuario_activo; ?>;
-
-
-    document.getElementById("carritoBtn").addEventListener("click", function (e) {
-        e.preventDefault();
-
-        if (sesionActiva) {
-            window.location.href = "./Views/cart.php";
-        } else {
-            window.location.href = "./Views/login.php";
-        }
-    });
-
-    if(sesionActiva === false){
-         document.getElementById("numero_carrito").textContent = "0"
-    }
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -108,12 +108,6 @@
     </table>
     </div>
 
-    <?php 
-        require_once '../Models/OrderModel.php';
-
-        $instOrder =  new OrderModel();
-        $data = $instOrder->getDetailOrder();
-    ?>
 <!-- Modal -->
 <div class="modal fade" id="verPedidoModal" tabindex="-1" aria-labelledby="verPedidoModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -123,43 +117,33 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Cliente:</strong> Juan Pérez</p>
-        <p><strong>Correo:</strong> juanperez@gmail.com</p>
-        <p><strong>Dirección:</strong> Calle 123, Bogotá, Colombia</p>
-        <p><strong>Teléfono:</strong> +57 300 123 4567</p>
+        <p id="nameClient"> </p>
+        <p id="emailClient"></p>
+        <p id="addressClient"></p>
+        <p id="phoneClient"></p>
+        <p id="countryClient"></p>
 
         <h6>Productos:</h6>
         <table class="table table-sm">
           <thead>
             <tr>
+              <th>Id</th>
               <th>Producto</th>
               <th>Cantidad</th>
+              <th>Iva</th>
               <th>Precio</th>
               <th>Subtotal</th>
             </tr>
           </thead>
-          <tbody>
-             <?php foreach ($data as $row) {?>
-            <tr>
-              <td> <?php echo $row['product_id']?></td>
-              <td><?php echo $row['quantity']?></td>
-              <td><?php echo $row['unit_price']?></td>
-              <td>$40.000</td>
+           <tbody  id="detallePedido">
+
+            
+           </tbody>
+           <tr>
+              <td colspan="4" class="text-end" id="totalProducts"> </td>
+              <td><strong></strong></td>
             </tr>
-             <?php } ?>
-               <tr>
-              <td colspan="3" class="text-end"><strong>Envío</strong></td>
-              <td>$5.000</td>
-            </tr>
-            <tr>
-              <td colspan="3" class="text-end"><strong>Total</strong></td>
-              <td><strong><?php echo $row['unit_price']?></strong></td>
-            </tr>
-          </tbody>
         </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
