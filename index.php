@@ -2,6 +2,11 @@
   session_start();
   $usuario_activo = isset($_SESSION['nombre']) ? 'true' : 'false';
 
+    if ($_SESSION['cliente']!="1") { // Si no hay un usuario en sesión
+        header("Location: ./login.php"); // Redirigir al login
+        exit(); // Detener la ejecución del script
+    }
+    
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +62,7 @@
                 <a> <i class="bi bi-heart fs-3"></i></a>
              <?php } ?>
           </div>
-          
+     
           <a href="#" id="carritoBtn"><i class="bi bi-cart fs-3"></i>
           <span id="numero_carrito"></span>
          </a>

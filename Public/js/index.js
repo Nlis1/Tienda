@@ -8,6 +8,7 @@ let PedidosList = document.getElementById("body-pedidos");
 let listaCategorias = document.getElementById("list-categorias");
 let inputText = document.getElementById("texto");
 let detallePedido = document.getElementById("detallePedido")
+let listPedidosCliente = document.getElementById("pedidos-list")
 
 let categorias= [];
 let productos= [];
@@ -36,7 +37,7 @@ let url = "http://localhost/tienda/api/api.php/product";
             .then(data => {
                 orders = data
                 console.log(orders)
-                renderPedidos();
+                renderPedidos()
             })
     }
 
@@ -49,10 +50,31 @@ let url = "http://localhost/tienda/api/api.php/product";
             <td><span class="badge bg-warning text-dark">${order.status}</span></td>
             <td>${order.total}</td>
             <td>
-            <button class="btn btn-primary btn-sm" onclick="verDetallePedido(${order.id})" data-bs-toggle="modal" data-bs-target="#verPedidoModal">Ver</button>
+                <button class="btn btn-primary btn-sm" onclick="verDetallePedido(${order.id})" data-bs-toggle="modal" data-bs-target="#verPedidoModal">Ver</button>
             </td>
         </tr> `).join("");
         PedidosList.innerHTML = pedidosRender
+    }
+
+    function renderClientes(){
+        console.log(orders) 
+        const pedidosRender = orders.map((order) =>`
+        <div class="col-md-6 col-lg-4" >
+            <div class="card pedido-card">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido #${order.code_order}</h5>
+                    <p class="card-text">
+                        <strong>Fecha:</strong> ${order.order_date}<br>
+                        <strong>Total:</strong> ${order.total}<br>
+                        <strong>Estado:</strong> <span class="text-success">Entregado</span>
+                    </p>
+                    <button class="btn btn-outline-primary btn-sm" onclick="verDetallePedido(${order.id})" data-bs-toggle="modal" data-bs-target="#detallePedidoModal">
+                        Ver Detalles
+                    </button>      
+                </div>          
+            </div>         
+        </div>`).join("");
+        listPedidosCliente.innerHTML = pedidosRender
     }
 
     function verDetallePedido(id){

@@ -6,16 +6,17 @@ require_once '../Core/MainModal.php';
 
 
 class OrderController{
-    public $model, $mainModal, $conexion;
+    public $detailsOrder, $mainModal, $conexion, $Ordermodal;
  
     public function __construct(){
-        $this->model = new OrderModel();
+        $this->detailsOrder = new DetailOrder();
+        $this->Ordermodal = new OrderModel();
         $this->mainModal = new MainModal();
         $this->conexion = Conexion::conectar();
     }
 
     public function consultar($id=null){
-        $response = $this->model->get($id);    
+        $response = $this->Ordermodal->get($id);
         return json_encode($response);
     }
 
@@ -47,7 +48,7 @@ class OrderController{
             'user_id'=>$user_id
         ];
 
-        $response = $this->model->post($datosOrder);
+        $response = $this->Ordermodal->post($datosOrder);
 
         if($response){
 
@@ -60,9 +61,14 @@ class OrderController{
                     'order_id'=>$response
                 ];
 
-                $result= $this->model->insertarDellate($datosDetalles);
+                $result= $this->detailsOrder->insertarDellate($datosDetalles);
+                
             }
-           echo json_encode(['success' => true, 'message' => 'Pedido registrado correctamente']);
+            include_once __DIR__ . '/../Core/EnviarEmail.php';
+            enviarCorreoPedido($carrito, $total, $code_order, $user_id);
+            ob_clean();
+
+            echo json_encode(['success' => true, 'message' => 'Pedido registrado correctamente']);
             exit;
         }else{
             return json_encode(['success' => false]);

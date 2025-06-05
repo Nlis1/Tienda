@@ -6,43 +6,60 @@ require_once(__DIR__ . '/UserModel.php');
 
 class OrderModel {
     public $conexion;
-    public $modal;
+    public $orderDetail;
     public $user;
 
     public function __construct(){
         $this->conexion = Conexion::conectar();
-        $this->modal = new DetailOrder();
+        $this->orderDetail = new DetailOrder();
         $this->user = new UserModel();
     }
 
-    public function get($id=null){
-        
+    public function get($id=null)
+    {
         if(!empty($id)){
             $sql= "SELECT * FROM orders WHERE id='$id'";
-          
-        $response = $this->conexion->query($sql);
-        $orderData = [];
-
-        if ($response && $response->num_rows > 0) {
-            $orderData = $response->fetch_assoc();
             
-            $detail = $this->modal->getDetail($id);
-            $user = $this->user->get($orderData['user_id']);
-            
-            $orderData = [...$orderData,
-                        'user'=> $user,
-                        'detail_order' => $detail];
-        }
+            $response = $this->conexion->query($sql);
+            $orderData = [];
 
-        return $orderData;
+            if ($response && $response->num_rows > 0) {
+                $orderData = $response->fetch_assoc();
+                
+                $detail = $this->orderDetail->getDetailsByOrderId($id);
+                $user = $this->user->get($orderData['user_id']);
+                
+                $orderData =[
+                                ...$orderData,
+                                'user'=> $user,
+                                'detail_order' => $detail
+                            ];
+            }
 
+            return $orderData;
         } else {
+            
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            $orders = [];
+
+            if(isset($_SESSION['id']) && isset($_SESSION['cliente'])) {
+                $userid = $_SESSION['id'];
+                $roluser = $_SESSION['cliente'];
+
+                    if($userid && $roluser === "1"){
+                        $sql="SELECT orders.*,users.name, users.last_name FROM orders INNER JOIN users ON orders.user_id = users.id WHERE user_id='$userid'";
+                    }
+            }
+            if(!isset($sql)){
             $sql = "SELECT orders.*, users.name, users.last_name 
                     FROM orders 
                     INNER JOIN users ON orders.user_id = users.id";
+            }
 
             $response = $this->conexion->query($sql);
-            $orders = [];
 
             if($response){
                 while($row = $response->fetch_assoc()){
@@ -65,28 +82,4 @@ class OrderModel {
         }
     }
 
-    public function insertarDellate($datos){
-        $sql="INSERT INTO detail_order(id, quantity, unit_price, iva, product_id, order_id)VALUES(?,?,?,?,?,?)";
-        $response = $this->conexion->prepare($sql);
-        $response->bind_param('ssssss', $datos['id'], $datos['quantity'], $datos['unit_price'], $datos['iva'], $datos['product_id'], $datos['order_id'] );
-
-        if($response->execute()){
-            return true;
-        }
-    }
-
-    public function getDetailOrder($id=null){
-        
-        $sql = "SELECT * FROM detail_order WHERE order_id='$id '";
-
-        $response = $this->conexion->query($sql);
-
-        $data = [];
-        if($response){
-            while($row = $response->fetch_assoc()){
-                $data[]= $row;
-            }
-        }
-        return $data;
-    }
 }

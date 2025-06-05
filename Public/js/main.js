@@ -26,7 +26,6 @@ $(document).on("submit", ".FormularioAjax", function (e) {
       const $form = $(form); // para poder usar jQuery más abajo
 
       if($form.hasClass("InsertarPedido")){
-        alert('Pedido Agregado Correctamente!')
         $form.trigger("reset");
         let modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
         modal.hide();
