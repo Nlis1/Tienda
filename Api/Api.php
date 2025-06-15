@@ -3,6 +3,7 @@
 require_once '../Controllers/ProductController.php';
 require_once '../Controllers/CategoryController.php';
 require_once '../Controllers/OrderController.php';
+require_once '../Controllers/UserController.php';
 
 header('Content-Type: application/json');
 

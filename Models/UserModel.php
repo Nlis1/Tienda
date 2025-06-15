@@ -19,6 +19,15 @@ class UserModel extends MainModal{
         }
     }
 
+    public function put($datos){
+        $sql = "UPDATE users SET `name` = '{$datos['name']}', '{$datos['last_name']}', 
+        '{$datos['email']}', '{$datos['address']}', '{$datos['phone']}', '{$datos['password']}' 
+        WHERE id = '{$datos['id']}'";
+        
+        $response= $this->conexion->query($sql);
+        return $response;
+    }
+
     public function register_user($datos){
         $sql="INSERT INTO users (`name`,  last_name, email,`address`, phone, `password`, gender) VALUES (?,?,?,?,?,?,?)";
         $stmt=$this->conexion->prepare($sql);

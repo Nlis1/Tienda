@@ -1,9 +1,8 @@
-
 <?php 
     session_start(); // Iniciar o reanudar la sesión
 
-    if ($_SESSION['admin']!="2") { // Si no hay un usuario en sesión
-        header("Location: login.php"); // Redirigir al login
+    if ($_SESSION['rol']!="2") { // Si no hay un usuario en sesión
+        header("Location: views/login.php"); // Redirigir al login
         exit(); // Detener la ejecución del script
     }
     

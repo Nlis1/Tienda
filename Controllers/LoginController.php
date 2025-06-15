@@ -98,13 +98,13 @@ class LoginController extends MainModal {
             $response = $this->conexion->query($sql);
             if ($response && $rowRol = $response->fetch_assoc()) {
                 $rol = $rowRol['rol_id'];
-                $_SESSION['cliente'] = $rol;
                 if($rol==="1"){
+                    $_SESSION['rol'] = $rol;
                     $url="http://localhost/tienda/index.php";
                     $urlLocation='<script> window.location="'.$url.'"</script>';
                     return $urlLocation;
                 }else if($rol==="2"){
-                    $_SESSION['admin'] = $rol;
+                    $_SESSION['rol'] = $rol;
                     $url="http://localhost/tienda/Views/products.php";
                     $urlLocation='<script> window.location="'.$url.'"</script>';
                     return $urlLocation;

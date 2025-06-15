@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./Public/js/jquery-3.1.1.min.js"></script>
+    <script src="../Public/js/jquery-3.1.1.min.js"></script>
     <style>
       .dropdown-toggle::after {
         display: none !important;
@@ -66,35 +66,61 @@
       </div>
     </div>
   </header>
+<?php
+     require_once '../Models/UserModel.php';
+    $insUser = new UserModel();
+    $dato = $insUser->get();
 
+?>
   <div class="container mt-5">
-  <h2 class="mb-4">Editar Perfil</h2>
-  <form action="guardar_perfil.php" method="POST" enctype="multipart/form-data">
-    <div class="row mb-3">
-      <div class="col-md-4 text-center">
-        <img src="tu_imagen.jpg" class="img-thumbnail rounded-circle mb-3" alt="Foto de perfil" width="150">
-        <input type="file" name="imagen" class="form-control">
-      </div>
-      <div class="col-md-8">
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre completo</label>
-          <input type="text" class="form-control" id="nombre" name="nombre" value="Tu Nombre">
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Actualizar Perfil</h4>
         </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Correo electrónico</label>
-          <input type="email" class="form-control" id="email" name="email" value="correo@ejemplo.com">
+        <div class="card-body">
+            <form method="POST" action="../Api/Api.php/user" >
+              <input type="hidden" name="id" value="<?php echo $dato['id'] ?>">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" name="name" value="<?php echo $dato['name'] ?>" id="name" class="form-control" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Apellido</label>
+                    <input type="text" name="last_name" value="<?php echo $dato['last_name'] ?>" id="last_name" class="form-control" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" name="email" id="email" value="<?php echo $dato['email'] ?>"class="form-control" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Teléfono</label>
+                    <input type="text" name="phone" id="phone" value="<?php echo $dato['phone'] ?>" class="form-control" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Nueva Contraseña <small class="text-muted">(opcional)</small></label>
+                    <input type="password" name="password" id="password" class="form-control">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="address" class="form-label">Dirección</label>
+                    <input type="text" name="address" id="address" value="<?php echo $dato['address'] ?>"class="form-control" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Nueva contraseña</label>
-          <input type="password" class="form-control" id="password" name="password">
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-      </div>
     </div>
-  </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="../Public/js/main.js"></script>
+    <script src="../Public/js/localStorage.js"></script>
+	  <script src="../Public/js/index.js"></script>
 </body>
 </html>

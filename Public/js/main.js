@@ -12,7 +12,7 @@ $(document).on("submit", ".FormularioAjax", function (e) {
 
   formData.append('carrito', JSON.stringify(productosCarrito));
   formData.append('subtotal', subtotal);
-  formData.append('iva_total', iva); // evitar confusión con iva del producto
+  formData.append('iva_total', iva); // 
   formData.append('total', total);
   
   $.ajax({
@@ -40,6 +40,11 @@ $(document).on("submit", ".FormularioAjax", function (e) {
         let modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
         modal.hide();
       }
+
+       if ($form.hasClass("EditarUser")) {
+        alert("Editado correctamente");
+        $form.trigger("reset");
+       }
 
       if ($form.hasClass("ProductEliminar")) {
         alert("Se ha eliminado correctamente.");

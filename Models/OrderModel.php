@@ -45,14 +45,15 @@ class OrderModel {
 
             $orders = [];
 
-            if(isset($_SESSION['id']) && isset($_SESSION['cliente'])) {
+            if(isset($_SESSION['id']) && isset($_SESSION['rol'])) {
                 $userid = $_SESSION['id'];
-                $roluser = $_SESSION['cliente'];
+                $roluser = $_SESSION['rol'];
 
                     if($userid && $roluser === "1"){
                         $sql="SELECT orders.*,users.name, users.last_name FROM orders INNER JOIN users ON orders.user_id = users.id WHERE user_id='$userid'";
                     }
             }
+
             if(!isset($sql)){
             $sql = "SELECT orders.*, users.name, users.last_name 
                     FROM orders 

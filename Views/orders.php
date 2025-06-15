@@ -1,3 +1,13 @@
+<?php 
+  session_start();
+
+    if ($_SESSION['rol']!="1") { // Si no hay un usuario en sesión
+        header("Location: views/login.php"); // Redirigir al login
+        exit(); // Detener la ejecución del script
+    }
+    
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

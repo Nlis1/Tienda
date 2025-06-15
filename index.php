@@ -2,8 +2,8 @@
   session_start();
   $usuario_activo = isset($_SESSION['nombre']) ? 'true' : 'false';
 
-    if ($_SESSION['cliente']!="1") { // Si no hay un usuario en sesión
-        header("Location: ./login.php"); // Redirigir al login
+    if ($_SESSION['rol']!="1") { // Si no hay un usuario en sesión
+        header("Location: views/login.php"); // Redirigir al login
         exit(); // Detener la ejecución del script
     }
     

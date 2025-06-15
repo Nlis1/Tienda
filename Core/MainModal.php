@@ -20,7 +20,7 @@ class MainModal{
     }
 
     
-    protected function encryption($string){   
+    public function encryption($string){   
         $output=FALSE;
         $key=hash('sha256', '$BP@2025');
         $iv=substr(hash('sha256', '261905'), 0, 16);
@@ -29,7 +29,7 @@ class MainModal{
         return $output;
     }
 
-    protected static function decryption($string){
+    public static function decryption($string){
         $key=hash('sha256', '$BP@2025');
         $iv=substr(hash('sha256', '261905'), 0, 16);
         $output=openssl_decrypt(base64_decode($string), 'AES-256-CBC', $key, 0, $iv);
